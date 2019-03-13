@@ -4,11 +4,11 @@
 # Output: A data file named shots-data.csv that can be used to graph shot data.
 
 data_types = c("factor", "character", "integer", "integer", "integer", "integer", "character", "factor", "factor", "integer", "factor", "integer", "integer")
-iguodala = read.csv("../data/andre-iguodala.csv", stringsAsFactors = FALSE, colClasses = data_types)
-green = read.csv("../data/draymond-green.csv", stringsAsFactors = FALSE, colClasses = data_types)
-durant = read.csv("../data/kevin-durant.csv", stringsAsFactors = FALSE, colClasses = data_types)
-thompson = read.csv("../data/klay-thompson.csv", stringsAsFactors = FALSE, colClasses = data_types)
-curry = read.csv("../data/stephen-curry.csv", stringsAsFactors = FALSE, colClasses = data_types)
+iguodala = read.csv("../data/andre-iguodala.csv", colClasses = data_types)
+green = read.csv("../data/draymond-green.csv", colClasses = data_types)
+durant = read.csv("../data/kevin-durant.csv", colClasses = data_types)
+thompson = read.csv("../data/klay-thompson.csv", colClasses = data_types)
+curry = read.csv("../data/stephen-curry.csv", colClasses = data_types)
 
 iguodala$name = factor("Andre Iguodala")
 green$name = factor("Draymond Green")
@@ -28,6 +28,7 @@ durant$shot_made_flag[durant$shot_made_flag == "n"] = "shot_no"
 thompson$shot_made_flag[thompson$shot_made_flag == "n"] = "shot_no" 
 curry$shot_made_flag[curry$shot_made_flag == "n"] = "shot_no"
 
+# Converting shot_made_flag to factor after mutating values
 iguodala$shot_made_flag = factor(iguodala$shot_made_flag)
 green$shot_made_flag = factor(green$shot_made_flag)
 durant$shot_made_flag = factor(durant$shot_made_flag)
