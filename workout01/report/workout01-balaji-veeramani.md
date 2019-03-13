@@ -37,7 +37,7 @@ The table below summarizes describes the position of each player:
 Data and Analysis
 -----------------
 
-*The original data is on shots made by Stephen Curry, Kevin Durant, Draymond Green, and Andre Iguodala during the 2016 Golden States Warriors season.*
+*The original data is on shots made by Stephen Curry, Klay Thompson, Kevin Durant, Draymond Green, and Andre Iguodala during the 2016 Golden States Warriors season.*
 
 ##### Effecting Three Point Shooting Percentage
 
