@@ -1,0 +1,61 @@
+---
+title: "lab01-balaji-veeramani.Rmd"
+author: "Balaji Veeramani"
+date: "January 31, 2019"
+output: html_document
+---
+
+```{r}
+phone = 80
+transportation = 20
+groceries = 527
+gym = 10
+rent = 1500
+other = 83
+total = phone + transportation + groceries + gym + rent + other
+```
+
+```{r}
+# Semester total
+5 * total
+# Academic total
+10 * total
+```
+
+```{r}
+expenses = c(phone, transportation, groceries, gym, rent, other)
+labels = c("Phone", "Transportation", "Groceries", "Gym", "Rent", "Other")
+barplot(sort(expenses, decreasing=TRUE), names.arg=labels)
+```
+
+```{r}
+a = 3
+b = 4
+sqrt(a ^ 2 + b ^ 2)
+```
+
+```{r}
+n = 5
+k = 2
+p = 1/2
+# Number of combinations
+factorial(n) / (factorial(k) * factorial(n - k))
+# Probability of getting 2 heads in 5 flips
+factorial(n) / (factorial(k) * factorial(n - k)) * p ^ k * (1 - p) ^ (n - k)
+# Same probability as above
+choose(n, k) * p ^ k * (1 - p) ^ (n - k)
+```
+
+```{r}
+n = 10
+k = 3
+p = 1/6
+# Probability of getting 3 sixes in 10 rolls
+choose(n, k) * p ^ k * (1 - p) ^ (n - k)
+```
+
+```{r}
+dbinom(2, 5, 1/2)
+dbinom(3, 10, 1/6)
+# You would need to change the value of the 'prob' argument
+dbinom(2, 5, 0.35)

@@ -1,0 +1,95 @@
+---
+title: "warmup03-balaji-veeramani.Rmd"
+author: "Balaji Veeramani"
+date: "February 17, 2019"
+output: html_document
+---
+
+# Importing Data
+```{r}
+# There is a header. Observations are separated by a comma. Missing values are codified by an empty string.
+github = "https://raw.githubusercontent.com/ucb-stat133/stat133-hws/"
+repo = "master/data/nba2018-players.csv"
+datafile = paste0(github, repo)
+data_types = c("character", "factor", "factor", rep("integer", 4), "character", "numeric", rep("integer", 6))
+nba = read.csv(datafile, colClasses = data_types)
+str(nba, vec.len = 1)
+nba2 = read.table(datafile, header = TRUE, colClasses = data_types, sep = ",")
+str(nba2, vec.len = 1)
+identical(nba, nba2)
+```
+
+# Technical Questions about Importing Data
+a) Each column name is the "V" character followed by the corresponding column number.
+b) All column data types are factors. 
+c) The default arguments for `read.table` assumes that the table is separated by whitespace. However, the NBA data is separated by commas. Hence, an errors is raised while scanning the text.
+d) The option with custom-specified data types.
+e) All data values are converted to strings. 
+
+#Examine Salary
+```{r}
+summary(nba$salary)
+hist(nba$salary)
+nba$salary2 = nba$salary / 1000000
+hist(nba$salary2)
+nba$salary2 = log(nba$salary2)
+hist(nba$salary2)
+# The log-transformed distribution is more symetrical.
+# The shape of the log-transformed salary2 distribution is approximately unimodal and left skewed with some outliers.
+```
+
+```{r}
+low = nba$salary2 < -3
+length(nba$player[low])
+nba[low, c("player", "weight", "height", "team", "position")]
+nba = nba[!low,]
+dim(nba)
+```
+
+#Explore Points
+```{r}
+summary(nba$points)
+hist(nba$points)
+nba$points[nba$points == 0] = 0.1
+hist(log(nba$points))
+# The distribution of the log-transformed points is left-skewed and approximately unimodal with some outliers.
+```
+
+
+#Transforming Age into a Factor
+```{r}
+boxplot(salary2 ~ age, data = nba, xlab = "Age", ylab = "Salary (in millions)")
+# The above distribution appears to be roughly unimodal and symetrical. However, an analyst could also intepret the data as roughly uniform.
+boxplot(points ~ age, data = nba, xlab = "Age", ylab = "Points")
+# The above distribution appears to be aproximately uniform.
+```
+
+```{r}
+age2 = nba$age
+age2[nba$age <= 19] = 20
+age2 = cut(age2, labels = c("20-24", "25-29", "30+"), breaks = c(19, 24, 29, 100))
+summary(age2)
+```
+
+#Plotting Salary against Points, by Age Group
+```{r}
+palette1 = c("#D4D62A", "#4F9D66", "#9575AB")
+age_colors = palette1[age2]
+plot(salary ~ points, data = nba, log = "xy", main = "", xlab = "Points (log scale)", ylab = "Salary (log $)", col = age_colors, pch = 19, cex = 0.6)
+legend("bottomright", fill = palette1, legend = levels(age2), title = "Age Groups", cex = 0.8)
+```
+
+#Plotting Salary against Points, by Position
+```{r}
+boxplot(salary2 ~ position, data = nba, xlab = "Position", ylab = "Salary (in millions)")
+# The salaries by position appear to be approximately uniform. In other words, there is a small difference in salary depending on position.
+boxplot(points ~ position, data = nba, xlab = "Position", ylab = "Points Scored")
+# The number of points scored by position appear to be approximately uniform. Point gaurds and shooting gaurds may score slightly more than the other positions.
+```
+
+```{r}
+palette2 = c("#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854")
+pos_colors = palette2[nba$position]
+plot(salary ~ points, data = nba, log = "xy", main = "", xlab = "Points Scored (log scale)", ylab = "Salary (log $)", col = pos_colors, pch = 19, cex = 0.6)
+legend("bottomright", fill = palette2, legend = levels(nba$position), title = "Positions", cex = 0.8)
+```

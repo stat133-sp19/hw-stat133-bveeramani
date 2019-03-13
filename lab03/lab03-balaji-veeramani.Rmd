@@ -1,0 +1,70 @@
+---
+title: "lab03-balaji-veeramani.Rmd"
+author: "Balaji Veeramani"
+date: "February 14, 2019"
+output: html_document
+---
+
+```{r}
+column_names = c("Sex", "Length", "Diameter", "Height", "Whole", "Shucked", "Viscera", "Shell", "Rings")
+column_types = c("factor", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "integer") 
+abalone = read.table("abalone.data", sep = ",", col.names = column_names, colClasses = column_types)
+str(abalone)
+abalone2 = read.csv("abalone.data", header = FALSE)
+str(abalone2)
+abalone10 = read.table("abalone.data", sep = ",", nrows = 10)
+str(abalone10)
+abalone20 = read.table("abalone.data", sep = ",", skip = 10, nrows = 10)
+str(abalone20)
+```
+
+The column is skipped.
+
+```{r}
+str(abalone)
+summary(abalone)
+head(abalone)
+tail(abalone)
+dim(abalone)
+names(abalone)
+colnames(abalone)
+nrow(abalone)
+ncol(abalone)
+summary(abalone)[c(-2, -5),-1]
+```
+
+```{r}
+abalone[1:5,]
+abalone[1:50,][1:50 %% 5 == 0,]
+abalone[length(abalone) - 5 : length(abalone),]
+height14 = abalone[abalone$Height < 0.14, ]
+dim(height14)
+infant = abalone[abalone$Sex == "I",]
+male_female = abalone[abalone$Sex == "M" | abalone$Sex == "F",]
+abalone[abalone$Rings > 25, c("Sex", "Rings")]
+abalone[abalone$Rings > 3 & abalone$Rings < 6, c("Diameter")]
+```
+
+```{r}
+abies = abalone[abalone$Sex == 'I', c('Length', 'Height', 'Diameter')]
+abies$product = (abalone$Shucked * abalone$Whole)[abalone$Sex == "I"]
+abies3 = data.frame(log_height = log(abies$Height), log_length = log(abies$Length))
+head(abalone[order(abalone$Height), ][abalone$Height < 0.12, ])
+abalone[order(abalone$Height, decreasing = TRUE), c("Sex", "Diameter", "Rings")][1:5,]
+abalone[order(abalone$Length, decreasing = TRUE), c("Sex", "Diameter", "Rings")][1:5,]
+```
+
+```{r}
+plot(abalone$Height)
+plot(abalone$Sex)
+plot(abalone$Height, abalone$Length)
+plot(abalone[c("Height", "Length")])
+plot(abalone[c("Height", "Length", "Diameter")])
+plot(abalone[c("Sex", "Length")])
+plot(abalone[c("Length", "Sex")])
+```
+
+```{r}
+plot(abalone$Height, abalone$Length, psc = 22, col = "Red", cex = 0.8, xlab = "Height", ylab = "Length", main = "Relationship between Abalone Height and Length", sub = "Based on abalone data.", log = "xy")
+```
+```

@@ -1,0 +1,91 @@
+---
+title: "warmup01-balaji-veeramani"
+author: "Balaji Veeramani"
+date: "February 4, 2019"
+output: html_document
+---
+
+# Obi-Wan Kenobi
+![Obi-Wan in A New Hope](https://lumiere-a.akamaihd.net/v1/images/Obi-Wan-Kenobi_6d775533.jpeg?region=0%2C0%2C1536%2C864&width=960)
+
+Description | Value
+----------- | -----
+Homeworld | Stewjon
+Born | 57 BBY
+Died | 0 BBY
+Species | Humane
+Gender | Male
+Height | 1.82 meters
+Mass | 81 kilograms 
+Eye color | Gray-blue
+Skin color | Light
+
+**Obi-wan Kenobi to Anakin Skywalker:**
+
+> "You were the Chosen One! It was said that you would destroy the Sith, not join them! Bring balance to the Force, not leave it in darkness!"
+
+*Information on this character was retrieved from [this website](https://starwars.fandom.com/wiki/Obi-Wan_Kenobi/).*
+
+***
+
+# Buffalo Chicken Wing Recipe
+*This recipe is best enjoyed in the fall.*
+
+![Homemade Buffalo Wings](https://farm5.staticflickr.com/4898/31965088847_db5067d0d9_z.jpg)
+
+### Ingredients
+* 1 to 4 pounds chicken wings
+* 1 1/2 to 2 teaspoons baking powder
+* 1 to 4 teaspoons kosher salt
+* 2 tablespoons hot sauce
+* 1 1/2 to 2 tablespoons unsalted butter
+
+### Tools
+* Baking sheet
+* Oven-safe cooling rack
+* Tongs
+* Medium saucepan
+
+### Instructions
+1. Line baking sheet with foil and set colling rack on top
+1. Pat wings dry and toss with baking powder and salt
+1. Place in regrigerator uncovered for 8 to 24 hours
+1. Heat ovens to 450 degrees and bake wings for 20 minutes
+1. Flip wings with tongs, bake for 15 minutes, flip them again, and then **cook again** for 15 minutes.
+1. Combine 2 tablespoons of hot sauce and 2 tablespoons of unsalted butter and heat until melted
+1. Roll each wing in sauce and serve with cellery or carrot
+
+## Blue Cheese Dressing Variation
+
+### Ingredients
+* 1/3 cup buttermilk
+* 1/3 cup mayonnaise
+* 1/3 cup sour cream
+* Juice of half a lemon
+* 2 teaspoons white vinegar
+* 1 small garlic clobe
+* Salt and pepper
+* 4 ounces blue cheese
+* 2 tablespoons olives
+
+### Instructions
+1. Combine ingridents in a bowl
+1. Stir until combined
+1. Season **thoroughly** with salt and pepper
+
+*These recipes were adapted from [this website](https://smittenkitchen.com/2019/01/baked-buffalo-wings/).*
+
+---
+
+The **Euclidean distance** between points **p** and **q** is the length of the *line segment* connecting them ($\overline{\textbf{pq}}$).
+
+In *Cartesian coordinates*, if $\textbf{p} = (p_1, p_2,..., p_n)$ and $\textbf{q} = (q_1, q_2,..., q_n)$ are two points in *Euclidean n-space*, then the distance (d) from **p** to **q**, or from **q** to **p** is given by the *Pythagorean formula*:
+
+$\begin{equation}\label{eq:1}\begin{split} \textit{d}(\textbf{p, q}) = \textit{d}(\textbf{q, p}) & = \sqrt{(q_1 - p_1)^2 + (q_2 - p_2)^2 + \cdot\cdot\cdot + (q_n - p_n)^2} \\ & = \sqrt{\sum\limits_{i = 1}^{n} (q_i - p_i)^2} \end{split}\label{eq:2} \end{equation}$
+
+The position of a point in a Euclidean n-space is a *Euclidean vector*. So, p and q may be represented as Euclidean vectors, starting from the origin of the space (initial point) with their tips (terminal points) ending at the two points. The *Euclidean norm*, or **Euclidean length**, or **magnitude** of a vector measures the length of the vector:
+
+$\ \| \textbf{p} \| = \sqrt{p_1^2 + p_2^2 + \cdot\cdot\cdot + p_n^2} = \sqrt{\textbf{p} \cdot \textbf{p}}$
+
+
+

@@ -1,0 +1,73 @@
+---
+title: "lab04-balaji-veeramani.Rmd"
+author: "Balaji Veeramani"
+date: "February 21, 2019"
+output: html_document
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+dat = read.csv("nba2018-players.csv", stringsAsFactors = FALSE)
+```
+
+```{r}
+slice(dat, 1:5)
+slice(dat, seq(10, 50, 5))
+slice(dat, nrow(dat) : (nrow(dat) - 4))
+filter(dat, height < 70)
+filter(dat, team == 'GSW')
+filter(dat, position == "C", team == "GSW")
+dat %>% filter(team == "LAL") %>% select(player)
+dat %>% filter(position == "PG", team == "GSW") %>% select(player, salary)
+dat %>% filter(experience > 10, salary < 10000000) %>% select(player, age, team)
+dat %>% filter(age == 20) %>% select(player, team, height, weight) %>% slice(1:5)
+```
+
+```{r}
+gsw <- filter(dat, team == 'GSW')
+gsw <- select(gsw, player, height, weight)
+gsw <- slice(gsw, c(4, 8, 10, 14, 15))
+```
+
+```{r}
+gsw %>% mutate(product = height * weight)
+gsw3 = gsw %>% mutate(log_height = log(height), log_weight = log(weight))
+gsw3
+dat %>% filter(height < 71) %>% arrange(height)
+dat %>% arrange(desc(salary)) %>% slice(1:5) %>% select(player, team, salary)
+dat %>% arrange(desc(points3)) %>% slice(1:10) %>% select(player, team, points3)
+gsw_mpg = dat %>% filter(team == "GSW") %>% mutate(min_per_game = minutes / games) %>% select(player, experience, min_per_game) %>% arrange(min_per_game) 
+```
+
+```{r}
+dat %>% summarise(max(height))
+dat %>% summarise(sd(points3))
+dat %>% group_by(team) %>% summarise(median(points3))
+dat %>% group_by(team) %>% summarise(avg_points3 = mean(points3)) %>% arrange(avg_points3) %>% slice(1:5)
+dat %>% filter(experience >= 5, experience <= 10, position == "PF") %>% summarise(mean(age), sd(age))
+```
+
+```{r}
+ggplot(data = gsw, aes(x = height, y = weight)) + geom_point()
+ggplot(data = gsw, aes(x = height, y = weight, label = player)) + geom_point() + geom_text()
+ggplot(data = filter(dat, team == "GSW"), aes(x = height, y = weight, label = player)) + geom_point() + geom_label()
+ggplot(data = dat, aes(salary)) + geom_density()
+ggplot(dat, aes(points2)) + geom_histogram(binwidth = 50)
+ggplot(dat, aes(position)) + geom_bar()
+ggplot(dat %>% filter(position == "C"), aes(experience, salary)) + geom_point() + geom_smooth(method = "lm")
+ggplot(dat %>% filter(position == "C"), aes(experience, salary)) + geom_point() + geom_smooth()
+```
+
+```{r}
+ggplot(dat, aes(experience, salary)) + geom_point(aes(color = position), alpha = 0.7) + facet_wrap(~ position)
+ggplot(dat, aes(experience, salary)) + geom_point(aes(color = position), alpha = 0.7) + facet_wrap(~ team)
+ggplot(dat, aes(age)) + geom_density() + facet_wrap(~ team)
+ggplot(dat, aes(height, weight)) + geom_point(aes(color = position), alpha = 0.7) + facet_wrap(~ position)
+ggplot(dat, aes(height, weight)) + geom_point(aes(color = position), alpha = 0.7) + geom_density2d() + facet_wrap(~ position)
+ggplot(dat %>% filter(team == "GSW"), aes(experience, salary)) + geom_point(aes(color = position), alpha = 0.7) + theme_bw()
+ggplot(dat, aes(height, weight)) + geom_point(aes(color = position), alpha = 0.7) + facet_wrap(~ position) + theme_dark()
+```

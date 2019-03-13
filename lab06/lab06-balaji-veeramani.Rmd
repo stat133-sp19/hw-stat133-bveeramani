@@ -1,0 +1,54 @@
+---
+title: "lab06-balaji-veeramani"
+author: "Balaji Veeramani"
+date: "March 7, 2019"
+output: html_document
+---
+
+# 1) Git Workshop
+Answers to select excersices in *Version Control with Git*.
+
+1a) No. You only need to initialize git once.
+
+1b) Use rm with the -rf flags. 
+
+2a) Three because it's concise, descriptive, and in imperitive.
+
+2b) You would use the commands "git add mars.txt venus.txt" and then "git commit -m "Add descriptions to text files"
+
+3a) Both 2 and 4.
+
+3b) The second response.
+
+4a) Replace results/ with results/plots
+
+4b) Include *.data and !final.data
+
+5a) Pushing transfers commits to the remote repository, whereas commit finalizes changes.
+
+5b) There would be a merge conflict.
+
+#  2) Git and GitHub Practice
+```{r eval=FALSE}
+git config --global user.name "Balaji Veeramani"
+git config --global user.email "bveeramani@berkeley.edu"
+
+cd Desktop
+mkdir demo-repo
+cd demo-repo
+git init
+
+echo "# Demo Repo" >> README.md
+git status
+git add README.md
+git status
+git commit -m "first commit"
+
+git remote add origin https://github.com/bveeramani/demo-repo.git
+git remove -v
+
+git status
+git push origin master
+
+
+```

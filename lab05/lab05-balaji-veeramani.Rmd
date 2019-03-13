@@ -1,0 +1,82 @@
+---
+title: "lab05-balaji-veeramani"
+author: "Balaji Veeramani"
+date: "February 28, 2019"
+output: html_document
+---
+
+```{r setup, eval=FALSE}
+ls -r
+ls -l -t
+ls *.txt
+ls ????.csv
+ls *[2]*.csv
+ls *[0-9]*
+  
+mv ../bread.txt txt-files
+ls txt-files
+mv ../*.txt txt-files
+ls txt-files
+mv ../*.csv csv-files
+ls csv-files
+
+cd ..
+mkdir copies
+cp data/text-files/bread.txt copies
+ls copies
+cp data/text-files/*.txt copies
+ls copies
+cp data/csv-files/*.csv copies
+
+cd copies
+mv bread.txt bread-recipe.txt
+mv cars.csv autos.csv
+mv btaco.txt breakfast-taco.txt
+cd ..
+mv copies copy-files
+rm copy-files/*.csv 
+rm -r copyfiles
+ls data/text-files -r
+
+mkdir abalone
+cd abalone
+curl -O http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data
+file abalone.data
+wc abalone.data
+head abalone.data -n 5
+head abalone.data -n 15
+tail abalone.data
+tail abalone.data -n 3
+mv abalone.data abalone.csv
+cp abalone.csv dataset.csv
+mv dataset.csv ../data/csv-files
+```
+
+```{r}
+write.csv(mtcars[, c("mpg", "disp", "hp")], "exports/dataset.csv")
+write.csv(str(mtcars), "exports/mtcars-structure.txt")
+
+sink(file = "exports/summary-mtcars.txt")
+summary(mtcars)
+sink()
+
+png(filename = "exports/scatterplot-mpg-wt.png")
+plot(mtcars$mpg, mtcars$wt)
+dev.off()
+
+png(filename = "exports/scatterplot-hp-wt.png", height = 960, width = 960)
+plot(mtcars$hp, mtcars$wt)
+dev.off()
+
+jpeg(filename = "exports/histogram-mpg.jpeg")
+hist(mtcars$mpg)
+dev.off()
+
+pdf(file = "exports/histogram-mpg.pdf", height = 5)
+hist(mtcars$mpg)
+dev.off()
+
+library(ggplot2)
+ggplot(mtcars, aes(x = mpg, y = disp)) + geom_point()
+ggsave("exports/scatterplot-mpg-disp.pdf", height = 7, width = 5, units = "in")
+```

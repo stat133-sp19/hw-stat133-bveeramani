@@ -1,0 +1,44 @@
+---
+title: "Workout 1"
+author: "Balaji Veeramani"
+output: github_document
+---
+
+```{r include = FALSE}
+library(dplyr)
+
+shots_data = read.csv("../data/shots-data.csv")
+
+two_point_shooting_percent = 
+  shots_data %>% 
+  filter(shot_type == "2PT Field Goal") %>% 
+  group_by(name) %>% 
+  summarise(
+    total = n(), 
+    made = sum(shot_made_flag == "shot_yes"), 
+    perc_made = sum(shot_made_flag == "shot_yes") / n()) %>% 
+  arrange(desc(perc_made))
+
+three_point_shooting_percent = 
+  shots_data %>% 
+  filter(shot_type == "3PT Field Goal") %>% 
+  group_by(name) %>% 
+  summarise(
+    total = n(), 
+    made = sum(shot_made_flag == "shot_yes"), 
+    perc_made = sum(shot_made_flag == "shot_yes") / n()) %>% 
+  arrange(desc(perc_made))
+
+shooting_percent = 
+  shots_data %>% 
+  group_by(name) %>% 
+  summarise(
+    total = n(), 
+    made = sum(shot_made_flag == "shot_yes"), 
+    perc_made = sum(shot_made_flag == "shot_yes") / n()) %>% 
+  arrange(desc(perc_made))
+```
+
+```{r out.width = '80%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("../images/gsw-shot-chart.png")
+```
