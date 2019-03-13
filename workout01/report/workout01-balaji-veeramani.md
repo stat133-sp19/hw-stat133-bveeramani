@@ -116,7 +116,9 @@ Despite Curry's reputation as one of the best shooters in the NBA, Curry ranked 
 
 ##### Shot Charts
 
-<img src="../images/gsw-shot-chart.png" width="80%" style="display: block; margin: auto;" /> Andre Iguodala and Draymond Green tended to shoot near the basket. In contrast, Kevin Durant, Klay Thompson, and Stephen Curry displayed a variety of shots. The diversity of shots displayed by the players suggest that they are capable of shooting from any location.
+<img src="../images/gsw-shot-chart.png" width="80%" style="display: block; margin: auto;" />
+
+Andre Iguodala and Draymond Green tended to shoot near the basket. In contrast, Kevin Durant, Klay Thompson, and Stephen Curry displayed a variety of shots. The diversity of shots displayed by the players suggest that they are capable of shooting from any location.
 
 ``` r
 shots_data %>%
