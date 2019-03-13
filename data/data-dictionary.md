@@ -4,7 +4,7 @@ Each data file contains information about shots made by a given player. Each row
 | Field Name        | Data Type | Format       | Description          
 |-------------------|-----------|--------------|----------------------------------------------------------------------------------------------------
 | team_name         | character |              | The player's team name.
-| game_date         | date      | MM/DD/YY     | The date on which the shot was made.                                                                 
+| game_date         | characte  | MM/DD/YY     | The date on which the shot was made.                                                                 
 | season            | integer   | YYYY         | The season in which the shot was made.                                                              
 | period            | integer   | 1, 2, 3 or 4 | The period during which the show was made. Each period is 12 minutes long, and there are 4 periods. 
 | minutes_remaining | integer   |              | The number of whole minutes remaining when the shot was made.                                       
