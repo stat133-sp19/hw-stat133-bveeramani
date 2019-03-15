@@ -1,0 +1,226 @@
+---
+title: "lab07-balaji-veeramani"
+author: "Balaji Veeramani"
+date: "March 14, 2019"
+output: html_document
+---
+
+```{r setup, include = FALSE} 
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+```{r}
+
+#' @title Square
+#' @description Squares the specified number
+#' @param x a number
+#' @return the number squared
+f = function(x) {
+  return(x^2)
+}
+
+f(2)
+f(-5)
+
+#' @title Double then add five
+#' @description Doubles the specified number then adds five
+#' @param x A number
+#' @return Two times the number plus five
+g = function(x) {
+  return(2 * x + 5)
+}
+
+g(0)
+g(-5/2)
+
+#' @title f composed with g
+#' @description The funtion f composed with g
+#' @param x a number
+#' @return f(g(x))
+fog = function(x) {
+  return(f(g(x)))
+}
+
+fog(2)
+fog(-5)
+
+#' @title g composed with f
+#' @description The function g composed with f
+#' @param x a number
+#' @return g(f(x))
+gof = function(x) {
+  return(g(f(x)))
+}
+
+gof(0)
+gof(-5/2)
+
+gof = function(x) {
+  return(g(f(x)))
+}
+
+#' @title Compute Hypotanuse Length
+#' @description computes the length of a triangle's hypotanuse
+#' @param a the length of one leg
+#' @param b the length of the other leg
+#' @return the length of the hypotonuse
+pythagoras = function(a, b = a) {
+  return(sqrt(a^2 + b^2))
+}
+# ?
+pythagoras(3, 4)
+pythagoras(5)
+
+#' @title Compute Circle Area
+#' @description computes the area of a circle
+#' @param radium the radium length of a circle
+#' @return thel ength of a circle with the specified radius length
+circle_area = function(radius = 1) {
+  if (radius < 0) {
+    stop("Radius most be positive")
+  }
+  return (pi * radius^2)
+}
+circle_area()
+circle_area(radius = 3)
+circle_area(radius = -2)
+
+#' @title Compute Area of a Cylinder
+#' @descrpition compute the area of a cylinder
+#' @param radius the radius of a cynlidnder
+#' @param height the height of a cylninder
+#' @return the area of a cylinder 
+cylinder_area = function(radius = 1, height = 1) {
+  if (radius < 0 | height < 0) { stop("Radius and height must be non-negative ") }
+  return (2 * pi * radius * height + 2 * pi * radius^2)
+}
+
+cylinder_area()
+cylinder_area(2, 3)
+cylinder_area(-2, 1)
+cylinder_area(2, -1)
+cylinder_area(-2, -1)
+
+#' @title Cylinder volume
+#' @description compute volume a of a cylinder
+#' @param radius the radius of the cylider
+#' @param height the height of the cylinder
+#' @radius return the volume of the cylinder
+cylinder_volume = function(radius, height) {
+  if (radius < 0 | height < 0) { stop("Radius and height must be non-negative ") }
+  return(pi * radius^2 * height)
+} 
+cylinder_volume(radius = 3, height = 10)
+
+#' @title convert miles two km
+#' @param miles mthe number of miles
+#' @return equivalent number of km
+miles2km = function(miles){
+  return (1.6 * miles)
+}
+
+gallons2liters = function(gallons) {
+  return (gallons * 3.78541)
+}
+
+liters2gallons = function(liters) {
+  return (liters / 3.78541)
+}
+
+seconds2years = function(seconds) {
+  return(seconds / 60 / 60 / 24 / 365)
+}
+
+f = function(x) { return(x^3)}
+g = function(x) { return((x^2 - 1) * (x + 3)^3)}
+h = function(x) { return((x^2 - 1) * (x^2 - 9))}
+x = seq(-4, 4, length.out = 20)
+g(x)
+plot(x, f(x), type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+plot(x, g(x), type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+plot(x, h(x), type = 'l', lwd = 3, col = "#FB7215", las = 1)
+abline(h = 0, v = 0, col = '#888888aa', lwd = 1.5)
+
+x = 100 * pi
+if (x > 100) {
+  x = 100
+} else if (x < 0) {
+  x = 0
+}
+x
+
+is_even = function(x) {
+  return (x %% 2 == 0)
+}
+
+is_even(4)
+is_even(3)
+
+is_odd = function(X) { 
+  return (!is_even(x))  
+}
+
+is_odd(1)
+is_odd(2)
+
+grade = function(score) {
+  if (score > 100 || score < 0) {
+    stop("Invalid score")
+  }
+  if (score >= 90) {
+    return("A")
+  } else if (score >= 80) {
+    return("B")
+  } else if (score >= 70) {
+    return("C")
+  } else if (score >= 60) {
+    return("D")
+  } else {
+    return("F")
+  }
+}
+# grade "A"
+grade(score = 90)
+
+# grade "B"
+grade(score = 89.9999)
+
+# grade "C"
+grade(score = 70.0000001)
+
+# grade "F"
+grade(score = 50)
+
+miles2inches = function(x) {
+  return(x * 63360)
+}
+miles2feet = function(x) {
+  return(x* 5280)
+}
+miles2yards = function(x) {
+  return(x * 1760)
+}
+miles2meters = function(x) {
+  return(x / 0.00062139)
+}
+miles2kms = function(x) {
+  return(x / 0.62137)
+}
+convert = function(x, to = "km") {
+  return (switch(to,
+    "in" = miles2inches(x),
+    "ft" = miles2feet(x),
+    "yd" = miles2yards(x),
+    "m" = miles2meters(x),
+    "km" = miles2meters(x)
+         ))
+}
+
+convert(3, "in")
+convert(3, "ft")
+convert(3, "yd")
+convert(3, "m")
+convert(3, "km")
+```
