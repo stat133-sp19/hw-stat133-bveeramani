@@ -8,6 +8,9 @@
 #
 
 library(shiny)
+library(ggplot2)
+
+source("functions.R", local = TRUE)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -56,7 +59,8 @@ ui <- fluidPage(
       
       # Show a plot of the generated distribution
       mainPanel(
-         plotOutput("distPlot")
+         plotOutput("timeline_plot")
+         #tableOutput("balance_table")
       )
    )
 )
@@ -64,13 +68,44 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
    
-   output$distPlot <- renderPlot({
-      # generate bins based on input$bins from ui.R
-      x    <- faithful[, 2] 
-      bins <- seq(min(x), max(x), length.out = input$bins + 1)
+  
+  balances = reactive({
+    years = 0:input$years
+    no_contrib = NULL
+    fixed_contrib = NULL
+    growing_contrib = NULL
+    
+    rate = input$rate / 100
+    growth = input$growth / 100
+    
+    for (year in years) {
+      index = year + 1
       
-      # draw the histogram with the specified number of bins
-      hist(x, breaks = bins, col = 'darkgray', border = 'white')
+      no_contrib[index] = future_value(input$amount, rate, year)
+      fixed_contrib[index] = no_contrib[index] + annuity(input$contrib, rate, year)
+      growing_contrib[index] = no_contrib[index] + growing_annuity(input$contrib, rate, growth, year)
+    }
+    
+    balances = data.frame(
+      years = years, 
+      no_contrib = no_contrib, 
+      fixed_contrib = fixed_contrib, 
+      growing_contrib = growing_contrib)
+    
+    return(balances)
+  })
+   
+   output$timeline_plot <- renderPlot({
+     ggplot(data = balances(), aes(x = years)) + 
+       geom_line(aes(y = no_contrib, color = "red")) + 
+       geom_line(aes(y = fixed_contrib, color = "green")) + 
+       geom_line(aes(y = growing_contrib, color = "blue")) + 
+       labs(x = "year", y = "value") +
+       ggtitle("Three modes of investing") +
+       scale_colour_discrete(
+         name = "variable",
+         labels = c("no_contrib", "fixed_contrib", "growing_contrib"), 
+         breaks = c("blue", "green", "red"))
    })
 }
 
