@@ -1,0 +1,136 @@
+---
+title: "warmup06-balaji-veeramani"
+author: "Balaji Veeramani"
+date: "March 22, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+##1) Future Value Function
+```{r}
+#' @title Future Value
+#' @description Calculates the future value with no annuity
+#' @param amount the initial deposit
+#' @param rate the annual return rate
+#' @param years the number of years compounded
+#' @return the future value of the investment
+future_value = function(amount, rate, years) {
+  return(amount * (1 + rate)^years)
+}
+
+# test set 1
+future_value(amount = 100, rate = 0.05, years = 1)
+future_value(amount = 500, rate = 0.05, years = 5)
+future_value(amount = 1000, rate = 0.05, years = 10)
+```
+
+##2) Future Value of Annuity
+```{r}
+#' @title Future Value of Annuity
+#' @description Calculates the future value of annuity
+#' @param contrib the initial deposit
+#' @param rate the annual return rate
+#' @param years the number of years compounded
+#' @return the future value of the annuity
+annuity = function(contrib, rate, years) {
+  return(contrib * (((1 + rate)^years - 1) / rate))
+}
+
+# test set 2
+annuity(contrib = 200, rate = 0.05, years = 1)
+annuity(contrib = 200, rate = 0.05, years = 2)
+annuity(contrib = 200, rate = 0.05, years = 10)
+```
+
+##3) Future Value of Growing Annuity
+```{r}
+#' @title Future Value of Growing Annuity
+#' @description Calculates the future value of growing annuity
+#' @param contrib the initial deposit
+#' @param rate the annual return rate
+#' @param growing the annual growth rate
+#' @param years the number of years compounded
+#' @return the future value of growing annuity
+growing_annuity = function(contrib, rate, growth, years) {
+  return(contrib * (((1 + rate)^years - (1 + growth)^years) / (rate - growth)))
+}
+
+# test set 3
+growing_annuity(contrib = 200, rate = 0.05, growth = 0.03, years = 1)
+growing_annuity(contrib = 200, rate = 0.05, growth = 0.03, years = 2)
+growing_annuity(contrib = 200, rate = 0.05, growth = 0.03, years = 10)
+```
+
+##4) Investing Modalities
+#####4.1) For-loop and Table
+```{r}
+years = 0:10
+no_contrib = NULL
+fixed_contrib = NULL
+growing_contrib = NULL
+
+for (year in years) {
+  index = year + 1
+  no_contrib[index] = future_value(amount = 1000, rate = 0.05, years = year)
+  fixed_contrib[index] = future_value(amount = 1000, rate = 0.05, years = year) + 
+    annuity(contrib = 200, rate = 0.05, years = year)
+  growing_contrib[index] = future_value(amount = 1000, rate = 0.05, years = year) + 
+    growing_annuity(contrib = 200, rate = 0.05, growth = 0.03, years = year)
+}
+
+modalities = data.frame(years = years, no_contrib = no_contrib, fixed_contrib = fixed_contrib, growing_contrib = growing_contrib)
+modalities
+```
+
+#####4.2) Timeline Graph
+```{r}
+  ggplot(data = modalities, aes(x = years)) + 
+    geom_line(aes(y = no_contrib, color = "red"), arrow = arrow(length = unit(0.03, "npc"))) + 
+    geom_line(aes(y = fixed_contrib, color = "blue"), arrow = arrow(length = unit(0.03, "npc"))) + 
+    geom_line(aes(y = growing_contrib, color = "green"), arrow = arrow(length = unit(0.03, "npc"))) + 
+    labs(x = "Time (in Years)", y = "Future Value (in USD)", title = "Comparison of Future Value Modalities") +
+    scale_colour_discrete(name = "Modality", labels = c("Growing Contribution", "Fixed Contribution", "No Contribution"), breaks = c("green", "blue", "red")) +
+    expand_limits(x = 0, y = 0) +
+    theme_light()
+```
+
+##5) Savings Simulation
+#####5.1) Foor Loops
+```{r}
+rates = c("regular savings" = 0.001, "high-yield savings" = 0.025, "index fund" = 0.065)
+types = c("regular savings", "high-yield savings", "index fund")
+amount = 10000
+years = 0:15
+contrib = 2000
+growth = 0.04
+
+savings = data.frame(year = numeric(), type = character(), modality = character(), rate = numeric(), balance = numeric(), row.names = NULL)
+for(type in types) {
+  for(year in years) {
+      rate = rates[type]
+      no_contrib = data.frame(year = year, type = type, modality = "no_contrib", rate = rate, balance = future_value(amount, rate, year), row.names = NULL)
+      fixed_contrib = data.frame(year = year, type = type, modality = "fixed_contrib", rate = rate, balance = future_value(amount, rate, year) +annuity(contrib, rate, year), row.names = NULL)
+      growing_contrib = data.frame(year = year, type = type, modality = "growing_contrib", rate = rate, balance = future_value(amount, rate, year) + growing_annuity(contrib, rate, growth, year), row.names = NULL)
+      savings = rbind(savings, no_contrib)
+      savings = rbind(savings, fixed_contrib)
+      savings = rbind(savings, growing_contrib)
+    }
+}
+head(savings)
+```
+
+#####5.2) Facet Timeline Graph
+```{r}
+ggplot(data = savings, aes(x = year, y = balance, group = modality, color = modality)) + 
+  geom_line(arrow = arrow(length = unit(0.07, "npc"))) + 
+  geom_point(aes(x = year), size = 1) +
+  labs(x = "Time (in Years)", y = "Future Value (in USD)", title = "Comparison of Future Value Modalities across Different Rates") +
+  scale_colour_discrete(name = "Modality", labels = c("Growing Contribution", "Fixed Contribution", "No Contribution"), breaks = c("growing_contrib", "fixed_contrib", "no_contrib")) +
+  expand_limits(x = 0, y = 0) +
+  facet_grid(~ type) + 
+  theme_light()
+```

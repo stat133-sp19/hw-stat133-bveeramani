@@ -1,0 +1,241 @@
+---
+title: "lab08-balaji-veeramani"
+author: "Balaji Veeramani"
+date: "March 21, 2019"
+output: html_document
+---
+
+```{r}
+vec = c(3, 1, 4)
+vec2 = rep(0, length(vec))
+
+for (i in 1:length(vec)) {
+  print(3 * vec[i])
+  vec2[i] = 3 * vec[i]
+}
+```
+
+```{r}
+f = function(n) {
+  v = c()
+  for (k in 0:n) {
+    v[k] = 1 / 2^k
+  }
+  return(v)
+}
+
+f(2)
+f(3)
+
+g = function(n) {
+  v = c()
+  for (k in 0:n) {
+    v[k] = 1 / 9^k
+  }
+  return(v)
+}
+
+g(2)
+g(3)
+```
+
+```{r}
+h = function(n, d = 3, a = 3) {
+  v = c()
+  for (i in 1 : n) {
+    v[i] = a + d * (i - 1)
+  }
+  return(v)
+}
+
+h(2)
+h(3)
+```
+
+```{r}
+F = function(n, r = 2, a = 3) {
+  v = c()
+  for (k in 1 : n) {
+    v[k] = a * r^(k - 1)
+  }
+  return(v)
+}
+
+F(2)
+F(3)
+```
+
+```{r}
+G = function(x, n = 100) {
+  total = 0
+  for (k in 0:(n / 2 - 1)) {
+    total = total + (-1) ^ (k - 1) * -x^(2 * k + 1) / factorial(2 * k + 1)
+  }
+  return(total)
+}
+
+G(pi)
+G(0)
+```
+
+```{r}
+set.seed(123)
+x = matrix(rnorm(12), nrow = 4, ncol = 3)
+y = matrix(nrow = nrow(x), ncol = ncol(x))
+
+for (i in 1 : nrow(x)) {
+  for (j in 1 : ncol(x)) {
+    if (x[i, j] < 0) {
+      y[i, j] = x[i, j]^2
+    } else {
+      y[i, j] = sqrt(x[i, j])
+    }
+  }
+}
+```
+
+```{r}
+reduce = function(x) {
+  while (x %% 2 == 0) {
+    x = x / 2
+  }
+  return(x)
+}
+reduce(898128000)
+```
+
+```{r}
+x = 1:100
+
+average = 0
+for(i in 1:length(x)) {
+  average = average + (x[i] / length(x)) 
+}
+average
+
+average = 0
+i = 1
+while(i <= length(x)) {
+  average = average + (x[i] / length(x))
+  i = i + 1
+}
+average
+
+average = 0
+i = 1
+repeat {
+  if (i > length(x)) {
+    break
+  }
+  average = average + (x[i])
+  i = i + 1
+}
+average
+```
+
+```{r}
+x = 1:100
+
+sd = 0
+for (i in 1:length(x)) {
+  sd = sd + ((x[i] - mean(x))^2) / (length(x) - 1)
+}
+sd = sqrt(sd)
+sd
+
+sd = 0
+i = 1
+while(i <= length(x)) {
+  sd = sd + ((x[i] - mean(x))^2) / (length(x) - 1)
+  i = i + 1
+}
+sd = sqrt(sd)
+sd
+
+sd = 0
+i = 1
+repeat {
+  if (i > length(x)) {
+    break
+  }
+  sd = sd + ((x[i] - mean(x))^2) / (length(x) - 1)
+  i = i + 1
+}
+sd = sqrt(sd)
+sd
+```
+
+```{r}
+x = 1:50
+n = length(x)
+
+y = 1
+for (i in 1:n) {
+  y = y * x[i]^(1/n)
+}
+y
+
+y = 1
+i = 1
+while (i <= n) {
+  y = y *x[i]^(1/n)
+  i = i + 1
+}
+y
+
+y = 1
+i = 1
+repeat {
+  if (i > n) {
+    break
+  }
+  y = y * x[i]^(1/n)
+  i = i + 1
+}
+y
+```
+
+```{r}
+# random distance matrix
+num_letters <- length(LETTERS)
+set.seed(123)
+values <- sample.int(num_letters) 
+distances <- values %*% t(values)
+diag(distances) <- 0
+dimnames(distances) <- list(LETTERS, LETTERS)
+
+get_dist = function(distances, ltrs) {
+  if (typeof(ltrs) != "character" || ltrs != toupper(ltrs)) { 
+    stop("Unrecognized character") 
+  }
+  distance = 0
+  for (i in 1:(length(ltrs) - 1)) {
+    distance = distance + distances[ltrs[i], ltrs[i + 1]]
+  }
+  return(distance)
+}
+
+cal <- c('C', 'A', 'L')
+stats <- c('S', 'T', 'A', 'T', 'S')
+oski <- c('O', 'S', 'K', 'I')
+zzz <- rep('Z', 3)
+lets <- LETTERS
+first = c("B", "A", "L", "A", "J", "I")
+last = c("V", "E", "E", "R", "A", "M", "A", "N", "I")
+
+strings = list(
+  cal = cal,
+  stats = stats,
+  oski = oski,
+  zzz = zzz,
+  lets = lets,
+  first = first,
+  last = last
+)
+
+string_dists = c()
+for (i in 1:length(strings)) {
+  string_dists[i] = get_dist(distances, strings[[i]]) 
+}
+string_dists
+```

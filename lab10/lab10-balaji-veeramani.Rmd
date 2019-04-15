@@ -1,0 +1,80 @@
+---
+title: "lab10-balaji-veeramani"
+author: "Balaji Veeramani"
+date: "April 11, 2019"
+output: html_document
+---
+
+```{r setup}
+library(ggplot2)
+```
+
+```{r}
+# bags
+bag1 <- c('white', 'white', 'red')
+bag2 <- c(rep('white', 3), 'red')
+
+bags <- c('bag1', 'bag2')
+repetitions <- 1000
+drawn_balls <- character(repetitions)
+
+set.seed(345)
+for (i in 1:repetitions) {
+  # select one bag
+  chosen_bag <- sample(bags, 1)
+  
+  # draw a ball from chosen bag
+  if (chosen_bag == 'bag1') {
+    drawn_balls[i] <- sample(bag1, 1)
+  } else {
+    drawn_balls[i] <- sample(bag2, 1)
+  }
+}
+
+table(drawn_balls) / repetitions
+```
+
+```{r}
+# bags
+box1 = c("blue", "blue", "red")
+box2 = c("blue", "blue", rep("red", 3), "white")
+
+boxes = c("box1", "box2")
+repetitions = 1000
+drawn_balls = data.frame(matrix(NA, nrow = 1000, ncol = 4))
+
+set.seed(345)
+for (i in 1:repetitions) {
+  if (runif(1) > 0.5) {
+    drawn_balls[i, ] = sample(box1, size = 4, replace = TRUE)
+  } else {
+    drawn_balls[i, ] = sample(box2, size = 4)
+  }
+}
+
+counts = data.frame(matrix(0, nrow = repetitions, ncol = 5))
+counters = c(0, 0, 0, 0, 0)
+for (i in 1:repetitions) {
+  num_balls = sum(drawn_balls[i, ] == "blue")
+  counters[num_balls + 1] = counters[num_balls + 1] + 1
+  counts[i, ] = counters
+}
+    
+head(counts)
+```
+
+```{r}
+proportions = data.frame(matrix(0, nrow = 1000, ncol = 5))
+for (i in 1:repetitions) {
+  proportions[i, ] = counts[i, ] / i
+}
+ggplot(proportions, aes(x = 1:1000)) + 
+  geom_line(aes(y = X1, colour = "blue")) +
+  geom_line(aes(y = X2, colour = "purple")) +
+  geom_line(aes(y = X3, colour = "green")) +
+  geom_line(aes(y = X4, colour = "red")) +
+  geom_line(aes(y = X5, colour = "yellow")) + 
+  ggtitle("Relative frequencies of number of blue balls") + 
+  xlab("reps") + ylab("freqs") + 
+  scale_color_discrete(name = "number", labels = c("0", "1", "2", "3", "4"))
+```
