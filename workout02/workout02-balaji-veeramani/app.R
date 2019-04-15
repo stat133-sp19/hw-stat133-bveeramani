@@ -13,17 +13,46 @@ library(shiny)
 ui <- fluidPage(
    
    # Application title
-   titlePanel("Old Faithful Geyser Data"),
+   titlePanel("Index Fund Simulation"),
    
    # Sidebar with a slider input for number of bins 
    sidebarLayout(
       sidebarPanel(
-         sliderInput("bins",
-                     "Number of bins:",
-                     min = 1,
+         sliderInput("amount",
+                     "Initial Amount",
+                     min = 0,
+                     max = 100000,
+                     value = 1000,
+                     step = 500),
+         sliderInput("contrib",
+                     "Annual Contribution",
+                     min = 0,
+                     max = 50000,
+                     value = 2000,
+                     step = 500),
+         sliderInput("rate",
+                     "Return Rate (in %)",
+                     min = 0,
+                     max = 20,
+                     value = 5,
+                     step = 0.1),
+         sliderInput("growth",
+                     "Growth Rate (in %)",
+                     min = 0,
+                     max = 20,
+                     value = 2,
+                     step = 0.1),
+         sliderInput("years",
+                     "Years",
+                     min = 0,
                      max = 50,
-                     value = 30)
+                     value = 20,
+                     step = 1),
+         selectInput("facet", 
+                     "Facet?",
+                     choices = c("No" = FALSE, "No" = TRUE))
       ),
+
       
       # Show a plot of the generated distribution
       mainPanel(
