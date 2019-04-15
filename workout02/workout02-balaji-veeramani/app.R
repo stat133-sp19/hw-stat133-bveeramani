@@ -1,24 +1,12 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
 library(ggplot2)
 
 source("functions.R", local = TRUE)
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
    
-   # Application title
    titlePanel("Index Fund Simulation"),
    
-   # Sidebar with a slider input for number of bins 
    sidebarLayout(
       sidebarPanel(
          sliderInput("amount",
@@ -53,19 +41,16 @@ ui <- fluidPage(
                      step = 1),
          selectInput("facet", 
                      "Facet?",
-                     choices = c("No" = FALSE, "No" = TRUE))
+                     choices = c("No" = FALSE, "Yes" = TRUE))
       ),
 
       
-      # Show a plot of the generated distribution
       mainPanel(
          plotOutput("timeline_plot")
-         #tableOutput("balance_table")
       )
    )
 )
 
-# Define server logic required to draw a histogram
 server <- function(input, output) {
    
   
@@ -86,29 +71,39 @@ server <- function(input, output) {
       growing_contrib[index] = no_contrib[index] + growing_annuity(input$contrib, rate, growth, year)
     }
     
+    types = c("No Contribution", "Fixed Contribution", "Growing Contribution")
+
     balances = data.frame(
-      years = years, 
-      no_contrib = no_contrib, 
-      fixed_contrib = fixed_contrib, 
-      growing_contrib = growing_contrib)
+      year = rep(years, 3), 
+      value = c(no_contrib, fixed_contrib, growing_contrib),
+      type = factor(rep(types, each = length(years))))
     
     return(balances)
   })
    
    output$timeline_plot <- renderPlot({
-     ggplot(data = balances(), aes(x = years)) + 
-       geom_line(aes(y = no_contrib, color = "red")) + 
-       geom_line(aes(y = fixed_contrib, color = "green")) + 
-       geom_line(aes(y = growing_contrib, color = "blue")) + 
-       labs(x = "year", y = "value") +
-       ggtitle("Three modes of investing") +
-       scale_colour_discrete(
-         name = "variable",
-         labels = c("no_contrib", "fixed_contrib", "growing_contrib"), 
-         breaks = c("blue", "green", "red"))
+     
+     base_plot = ggplot(data = balances(), aes(x = year, y = value, group = type)) +
+       geom_path(aes(color = type)) +
+       geom_point(aes(color = type)) + 
+       xlab("Time (in Years)") +
+       ylab("Balance (in USD)") +
+       ggtitle("Three Modes of Investing")
+     
+     unfaceted_plot = base_plot
+
+     faceted_plot = base_plot +
+       facet_grid(~ type) +
+       geom_area(aes(fill = type), alpha = 0.5) +
+       theme_light()
+     
+     if (input$facet) {
+       faceted_plot
+     } else {
+       unfaceted_plot
+     }
    })
 }
 
-# Run the application 
 shinyApp(ui = ui, server = server)
 
