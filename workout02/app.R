@@ -56,8 +56,13 @@ ui <- fluidPage(
    
    fluidRow(
      plotOutput("timeline_plot")
-   )
+   ),
    
+   h4(strong("Balances")),
+   
+   fluidRow(
+     verbatimTextOutput("balance_table")
+   )
 )
 
 server <- function(input, output) {
@@ -113,6 +118,15 @@ server <- function(input, output) {
      } else {
        unfaceted_plot
      }
+   })
+   
+   output$balance_table <- renderPrint({
+     data.frame(
+       year = 0:input$years,
+       no_contrib = balance_data()[balance_data()$type == "No Contribution", c("value")],
+       fixed_contrib = balance_data()[balance_data()$type == "Fixed Contribution", c("value")],
+       growing_contrib = balance_data()[balance_data()$type == "Growing Contribution", c("value")]
+     )
    })
 }
 
