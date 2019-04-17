@@ -15,6 +15,9 @@ future_value = function(amount, rate, years) {
 #' @param years the number of years compounded
 #' @return the future value of the annuity
 annuity = function(contrib, rate, years) {
+  if (rate == 0) {
+    return(0)
+  }
   return(contrib * (((1 + rate)^years - 1) / rate))
 }
 
@@ -26,5 +29,8 @@ annuity = function(contrib, rate, years) {
 #' @param years the number of years compounded
 #' @return the future value of growing annuity
 growing_annuity = function(contrib, rate, growth, years) {
+  if (rate - growth == 0) {
+    return(0)
+  }
   return(contrib * (((1 + rate)^years - (1 + growth)^years) / (rate - growth)))
 }

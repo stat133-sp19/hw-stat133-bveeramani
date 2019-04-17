@@ -1,14 +1,15 @@
 library(shiny)
 library(ggplot2)
+library(dplyr)
 
 source("functions.R", local = TRUE)
 
 ui <- fluidPage(
    
-   titlePanel("Index Fund Simulation"),
+   titlePanel(strong("Investing Simulation")),
    
-   sidebarLayout(
-      sidebarPanel(
+   fluidRow(
+      column(4, 
          sliderInput("amount",
                      "Initial Amount",
                      min = 0,
@@ -20,7 +21,9 @@ ui <- fluidPage(
                      min = 0,
                      max = 50000,
                      value = 2000,
-                     step = 500),
+                     step = 500)
+      ),
+      column(4,
          sliderInput("rate",
                      "Return Rate (in %)",
                      min = 0,
@@ -32,7 +35,9 @@ ui <- fluidPage(
                      min = 0,
                      max = 20,
                      value = 2,
-                     step = 0.1),
+                     step = 0.1)
+      ),
+      column(4,
          sliderInput("years",
                      "Years",
                      min = 0,
@@ -42,19 +47,24 @@ ui <- fluidPage(
          selectInput("facet", 
                      "Facet?",
                      choices = c("No" = FALSE, "Yes" = TRUE))
-      ),
-
-      
-      mainPanel(
-         plotOutput("timeline_plot")
       )
+   ),
+   
+   hr(),
+   
+   h4(strong("Timelines")),
+   
+   fluidRow(
+     plotOutput("timeline_plot")
    )
+   
 )
 
 server <- function(input, output) {
    
   
-  balances = reactive({
+  balance_data = reactive({
+    
     years = 0:input$years
     no_contrib = NULL
     fixed_contrib = NULL
@@ -77,18 +87,19 @@ server <- function(input, output) {
       year = rep(years, 3), 
       value = c(no_contrib, fixed_contrib, growing_contrib),
       type = factor(rep(types, each = length(years))))
-    
+    # Ensure correct ordering of types
+    balances$type = factor(balances$type, levels = types)
     return(balances)
   })
    
    output$timeline_plot <- renderPlot({
-     
-     base_plot = ggplot(data = balances(), aes(x = year, y = value, group = type)) +
+     base_plot = ggplot(data = balance_data(), aes(x = year, y = value, group = type)) +
        geom_path(aes(color = type)) +
        geom_point(aes(color = type)) + 
        xlab("Time (in Years)") +
        ylab("Balance (in USD)") +
-       ggtitle("Three Modes of Investing")
+       ggtitle("Three Modes of Investing") +
+       labs(color = "Mode")
      
      unfaceted_plot = base_plot
 
