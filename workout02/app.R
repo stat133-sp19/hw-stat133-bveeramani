@@ -109,20 +109,18 @@ server <- function(input, output) {
   })
   
   output$timeline_plot <- renderPlot({
-    base_plot = ggplot(data = balance_data(), aes(x = year, y = value, group = type)) +
+    unfaceted_plot = ggplot(data = balance_data(), aes(x = year, y = value, group = type)) +
       geom_path(aes(color = type)) +
       geom_point(aes(color = type)) +
       xlab("Time (in Years)") +
       ylab("Balance (in USD)") +
       ggtitle("Three Modes of Investing")
     
-    unfaceted_plot = base_plot
-
-    faceted_plot = base_plot +
+    faceted_plot = unfaceted_plot +
       facet_grid( ~ type) +
       geom_area(aes(fill = type), alpha = 0.5) +
       theme_light()
-
+    
     if (input$facet) {
       faceted_plot
     } else {
