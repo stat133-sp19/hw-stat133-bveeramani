@@ -1,0 +1,87 @@
+---
+title: "lab12-balaji-veeramani"
+author: "Balaji Veeramani"
+date: "April 25, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(XML)
+library(xml2)
+library(rvest)
+library(magrittr)
+```
+
+```{r }
+basket <- "https://www.basketball-reference.com"
+gsw <- "/teams/GSW/2017.html"
+gsw_url <- paste0(basket, gsw)
+
+download.file(gsw_url, 'gsw-roster-2017.html')
+
+gsw_roster <- readHTMLTable('gsw-roster-2017.html')
+```
+
+```{r}
+nba_html <- paste0(basket, "/leagues/NBA_2017.html")
+
+xml_doc <- read_html(nba_html)
+xml_text <- xml_doc %>% html_text()
+```
+
+```{r}
+xml_doc %>%
+  html_nodes("h2") %>%
+  html_text() 
+
+xml_doc %>%
+  html_nodes("h1") %>%
+  html_text() 
+
+xml_doc %>%
+  html_nodes("strong") %>%
+  html_text() 
+
+xml_doc %>%
+  html_nodes("button") %>%
+  html_text() 
+```
+
+```{r}
+xml_tables <- xml_doc %>%
+  html_nodes("table") %>%
+  extract(1:2)
+
+hrefs = xml_tables %>% 
+  html_nodes("a") %>%
+  html_attr("href")
+
+teams = substring(hrefs, 8, 10)
+files = paste0(teams, "-roster-2017.csv")
+
+url <- paste0(basket, hrefs[1])
+xml_doc <- read_html(url)
+data_table <- xml_doc %>% html_table()
+write.csv(data_table, file = files[1])
+```
+
+```{r}
+global_table = NULL
+
+for (i in 1:5) {
+  url <- paste0(basket, hrefs[i])
+  xml_doc <- read_html(url)
+  data_table <- (xml_doc %>% html_table())[[1]]
+  write.csv(data_table, file = files[i])
+  
+  data_table$team = teams[i]
+  if (i > 2) {
+    global_table = rbind(global_table, data_table)
+  } else {
+    global_table = data_table
+  }
+}
+
+write.csv(global_table, file = "nba-rosters-2017.csv")
+
+```
