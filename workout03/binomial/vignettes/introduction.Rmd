@@ -1,10 +1,10 @@
 ---
 title: "Introduction to binomial"
 author: Balaji Veeramani
-date: "4/29/2019"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to cointoss}
+  %\VignetteIndexEntry{Introduction to binomial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
