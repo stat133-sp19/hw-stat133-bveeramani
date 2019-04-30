@@ -19,8 +19,6 @@ a data frame representing the Cumulative distribution function of a
 Cumulative distribution function of a binomial random variable
 }
 \examples{
-  \dontrun {
-  cdf = bin_cumulative(trials = 10, prob = 0.5)
-  support = cdf$success
-  }
+cdf = bin_cumulative(trials = 10, prob = 0.5)
+support = cdf$success
 }

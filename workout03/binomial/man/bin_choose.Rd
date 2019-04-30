@@ -18,7 +18,5 @@ the number of k-length subsets of a n-length set.
 Calculates n choose k.
 }
 \examples{
- \dontrun {
-   bin_choose(n = 5, k = 3)
- }
+bin_choose(n = 5, k = 3)
 }

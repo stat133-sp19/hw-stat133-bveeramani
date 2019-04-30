@@ -4,6 +4,8 @@ Overview
 
 \`"binomial" is an R package that provides basic tools for simulating and analyzing binomial random variables.
 
+Important package members include:
+
 -   `bin_variable()` constructs an object that represents a binomial random variable.
 -   `bin_probability()` returns the probability that a binomial random variable with the specified shape parameters take on a particular value.
 -   `bin_distribution()` returns the probability mass function of a binomal random variable with the specified shape parameters
@@ -14,12 +16,12 @@ Overview
 Motivation
 ----------
 
-The purpose of the "binomial" package is to provide minimal tools for simulative and analyzing binomial random variables.
+The purpose of the `"binomial"` package is to provide minimal tools for simulating and analyzing binomial random variables.
 
 Installation
 ------------
 
-Install the "binomial" package from GitHub with the following commands:
+Install the `"binomial"` package from GitHub with the following commands:
 
 ``` r
 install.packages("devtools") 
@@ -82,9 +84,4 @@ summary(bernoulli)
 #> - mode    : 0 
 #> - skewness: 0 
 #> - kurtosis: -2
-
-cdf = bin_distribution(bernoulli$trials, bernoulli$prob)
-plot(cdf)
 ```
-
-![](README-unnamed-chunk-2-1.png)

@@ -19,8 +19,6 @@ a data frame representing the probability mass function of a binomial
 Probability mass function of a binomial random variable
 }
 \examples{
-  \dontrun {
-  dis = bin_distribution(trials = 10, prob = 0.5)
-  support = dis$success
-  }
+dis = bin_distribution(trials = 10, prob = 0.5)
+support = dis$success
 }

@@ -19,9 +19,6 @@ Creates a binomial random variable with the specified shape
   parameters.
 }
 \examples{
-  \dontrun {
-    binvar = bin_variable(trials = 10, prob = 0.5)
-    cdf = bin_cumulative(binvar$trials, binvar$prob)
-    plot(cdf)
-  }
+binvar = bin_variable(trials = 10, prob = 0.5)
+cdf = bin_cumulative(binvar$trials, binvar$prob)
 }

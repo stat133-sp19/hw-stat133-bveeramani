@@ -5,9 +5,7 @@
 #' @return the number of k-length subsets of a n-length set.
 #' @export
 #' @examples
-#'  \dontrun {
-#'    bin_choose(n = 5, k = 3)
-#'  }
+#' bin_choose(n = 5, k = 3)
 bin_choose <- function(n, k) {
   if (mode(n) != "numeric" || n != floor(n)) {
     stop("n must be numeric integer")
@@ -34,9 +32,7 @@ bin_choose <- function(n, k) {
 #'   shape parameters take on a particular value.
 #' @export
 #' @examples
-#'   \dontrun {
-#'     bin_probability(success = 3, trials = 10, prob = 0.5)
-#'   }
+#' bin_probability(success = 3, trials = 10, prob = 0.5)
 bin_probability <- function(success, trials, prob) {
   check_success(success, trials)
   check_trials(trials)
@@ -54,10 +50,8 @@ bin_probability <- function(success, trials, prob) {
 #'   random variable with the specified shape parameters.
 #' @export
 #' @examples
-#'   \dontrun {
-#'   dis = bin_distribution(trials = 10, prob = 0.5)
-#'   support = dis$success
-#'   }
+#' dis = bin_distribution(trials = 10, prob = 0.5)
+#' support = dis$success
 bin_distribution <- function(trials, prob) {
   check_trials(trials)
   check_prob(prob)
@@ -94,10 +88,8 @@ plot.bindis <- function(bindis) {
 #'   binomial random variable with the specified shape parameters
 #' @export
 #' @examples
-#'   \dontrun {
-#'   cdf = bin_cumulative(trials = 10, prob = 0.5)
-#'   support = cdf$success
-#'   }
+#' cdf = bin_cumulative(trials = 10, prob = 0.5)
+#' support = cdf$success
 bin_cumulative <- function(trials, prob) {
   support = 0:trials
 
@@ -134,11 +126,8 @@ plot.cumdis <- function(cumdis) {
 #' @return an object representing a binomial random variable
 #' @export
 #' @examples
-#'   \dontrun {
-#'     binvar = bin_variable(trials = 10, prob = 0.5)
-#'     cdf = bin_cumulative(binvar$trials, binvar$prob)
-#'     plot(cdf)
-#'   }
+#' binvar = bin_variable(trials = 10, prob = 0.5)
+#' cdf = bin_cumulative(binvar$trials, binvar$prob)
 bin_variable <- function(trials, prob) {
   check_trials(trials)
   check_prob(prob)

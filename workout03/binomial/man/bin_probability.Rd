@@ -22,7 +22,5 @@ Calculates the probability that a binomial random variable with
   the specified shape parameters takes on a particular value.
 }
 \examples{
-  \dontrun {
-    bin_probability(success = 3, trials = 10, prob = 0.5)
-  }
+bin_probability(success = 3, trials = 10, prob = 0.5)
 }
