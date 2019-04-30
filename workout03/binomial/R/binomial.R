@@ -9,6 +9,12 @@
 #'    bin_choose(n = 5, k = 3)
 #'  }
 bin_choose <- function(n, k) {
+  if (mode(n) != "numeric" || n != floor(n)) {
+    stop("n must be numeric integer")
+  }
+  if (mode(k) != "numeric" || k != floor(k)) {
+    stop("k must be numeric integer")
+  }
   if (k > n) {
     stop("k cannot be greater than n.")
   }
@@ -32,7 +38,7 @@ bin_choose <- function(n, k) {
 #'     bin_probability(success = 3, trials = 10, prob = 0.5)
 #'   }
 bin_probability <- function(success, trials, prob) {
-  check_success(success)
+  check_success(success, trials)
   check_trials(trials)
   check_prob(prob)
   return (bin_choose(trials, success) * prob ^ success *
@@ -53,15 +59,20 @@ bin_probability <- function(success, trials, prob) {
 #'   support = dis$success
 #'   }
 bin_distribution <- function(trials, prob) {
+  check_trials(trials)
+  check_prob(prob)
+
   support = 0:trials
 
   probability = rep(0, trials)
   for(number in support) {
-    probability[number] = bin_probability(number, trials, prob)
+    probability[number + 1] = bin_probability(number, trials, prob)
   }
 
   df = data.frame(success = support, probability = probability)
   class(df) = c("bindis", "data.frame")
+
+  return(df)
 }
 
 #' @export
@@ -92,7 +103,7 @@ bin_cumulative <- function(trials, prob) {
 
   probability = rep(0, trials)
   for(number in support) {
-    probability[number] = bin_probability(number, trials, prob)
+    probability[number + 1] = bin_probability(number, trials, prob)
   }
   cumulative = cumsum(probability)
 
@@ -102,16 +113,17 @@ bin_cumulative <- function(trials, prob) {
     cumulative = cumulative)
 
   class(df) = c("cumdis", "data.frame")
+  return(df)
 }
 
 #' @export
 plot.cumdis <- function(cumdis) {
   plot(
     x = cumdis$success,
-    y = cumdis$probability,
+    y = cumdis$cumulative,
     xlab = "successes",
     ylab = "probability")
-  lines(cumdis$success, cumdis$probability)
+  lines(cumdis$success, cumdis$cumulative)
 }
 
 #' @title Binomial random variable constructor
@@ -140,7 +152,7 @@ print.binvar <- function(binvar) {
   cat("\"Binomial Variable\"", "\n\n")
   cat("Parameters", "\n")
   cat("-", "number of trials:", binvar$trials, "\n")
-  cat("-", "prob of success:", binvar$prob)
+  cat("-", "prob of success :", binvar$prob)
 
   return(invisible(binvar))
 }
@@ -156,24 +168,22 @@ summary.binvar <- function(binvar) {
     skewness = aux_mode(binvar$trials, binvar$prob),
     kurtosis = aux_kurtosis(binvar$trials, binvar$prob)
   )
-  class(summary_object) = "summary.binvar"
+  class(summary_object) = c("summary.binvar", "list")
   return(summary_object)
 }
 
 #' @export
-print.summary.binvar <- function(binvar) {
-  summary_object = summary(binvar)
-
+print.summary.binvar <- function(summary_object) {
   cat("\"Binomial Variable\"", "\n\n")
   cat("Parameters", "\n")
-  cat("-", "number of trials:", binvar$trials)
-  cat("-", "prob of success:", binvar$prob, "\n\n")
+  cat("-", "number of trials:", summary_object$trials, "\n")
+  cat("-", "prob of success :", summary_object$prob, "\n\n")
   cat("Measures", "\n")
-  cat("-", "mean    :", summary$mean, "\n")
-  cat("-", "variance:", summary$variance, "\n")
-  cat("-", "mode    :", summary$mode, "\n")
-  cat("-", "skewness:", summary$skewness, "\n")
-  cat("-", "kurtosis:", summary$kurtosis)
+  cat("-", "mean    :", summary_object$mean, "\n")
+  cat("-", "variance:", summary_object$variance, "\n")
+  cat("-", "mode    :", summary_object$mode, "\n")
+  cat("-", "skewness:", summary_object$skewness, "\n")
+  cat("-", "kurtosis:", summary_object$kurtosis)
 
-  return(invisible(binvar))
+  return(invisible(summary_object))
 }

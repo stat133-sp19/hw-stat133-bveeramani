@@ -13,18 +13,29 @@ aux_variance <- function(trials, prob) {
 # Calculates the mode of a binomial random variable with shape parameters trials
 # and prob.
 aux_mode <- function(trials, prob) {
-  return(floor(trials * prob + prob))
+  m = trials * prob + prob
+  if (is_integer_valued(m) && m > 0) {
+    return(floor(m) - 1)
+  } else {
+    return(floor(m))
+  }
 }
 
 # Calculates the skewness of a binomial random variable with shape parameters
 # trials and prob.
 aux_skewness <- function(trials, prob) {
+  if (sqrt(trials * prob * (1 - prob)) == 0) {
+    return(0)
+  }
   return((1 - 2 * prob) / sqrt(trials * prob * (1 - prob)))
 }
 
 # Calculates the kurtosis of a binomial random variable with shape parameters
 # trials and prob.
 aux_kurtosis <- function(trials, prob) {
+  if (trials * prob * (1 - prob) == 0) {
+    return(0)
+  }
   return((1 - 6 * prob * (1 - prob)) / (trials * prob * (1 - prob)))
 }
 
