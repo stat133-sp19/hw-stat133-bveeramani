@@ -2,7 +2,7 @@
 Overview
 --------
 
-\`"binomial" is an R package that provides basic tools for simulating and analyzing binomial random variables.
+`"binomial"` is an R package that provides basic tools for simulating and analyzing binomial random variables.
 
 Important package members include:
 
