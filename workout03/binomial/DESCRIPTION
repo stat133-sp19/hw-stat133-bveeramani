@@ -8,3 +8,5 @@ Description: Implements tools for simulative and analyzing binomial random varia
 License: Apache License 2.0
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr

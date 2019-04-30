@@ -1,0 +1,94 @@
+---
+title: "Introduction to binomial"
+author: Balaji Veeramani
+date: "4/29/2019"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to cointoss}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+library(binomial)
+```
+
+## Scope
+
+The `"binomial"` package is intended for R programmers with an introductory-
+level knowledge of probability concepts.
+
+# Binomial
+Binomial random variables are important across many disciplines. The binomial 
+distribution is characterized by two shape parameters: `trials`, which represents 
+the number of I.I.D Bernoulli trials performed; and `prob`, the probability of 
+success on each I.I.D Bernoulli trial.
+
+## Creating a `binvar`
+
+To create a binomial variable object, use the `bin_variable` constructor:
+
+```{r}
+bernoulli <- bin_variable(1, 0.5)
+bernoulli
+#> "Binomial Variable" 
+#>
+#> Parameters 
+#> - number of trials: 1 
+#> - prob of success : 0.5
+
+summary(bernoulli)
+#> "Binomial Variable" 
+#>
+#> Parameters 
+#> - number of trials: 1 
+#> - prob of success : 0.5 
+#>
+#> Measures 
+#> - mean    : 0.5 
+#> - variance: 0.25 
+#> - mode    : 0 
+#> - skewness: 0 
+#> - kurtosis: -2
+```
+
+The `bin_variable` constructor takes two arguments: `trials` and `prob`. The 
+returned object is a list that contains two named vectors: `"trials"` and `"prob"`.
+
+# Inspecting probabilities
+
+You can calculate the probability of a single value by using the `bin_probability`
+function:
+
+```{r}
+prob_heads = bin_probability(1, bernoulli$trials, bernoulli$prob)
+prob_heads
+#> [1] 0.5
+```
+
+To inspect the probability mass function, use the `bin_distribution` function:
+
+```{r}
+pmf = bin_distribution(bernoulli$trials, bernoulli$prob)
+pmf
+#>   success probability
+#> 1       0         0.5
+#> 2       1         0.5
+```
+
+To inspect the cumulative distribution function, use the `bin_cumulative` function:
+
+```{r}
+cdf = bin_cumulative(bernoulli$trials, bernoulli$prob)
+cdf
+#>   success probability cumulative
+#> 1       0         0.5        0.5
+#> 2       1         0.5        1.0
+```
+
+## Plots of probability distributions
+
+The `bin_distribution` function returns a `bindis` object, and the `bin_cumulative` 
+function returns a `cumdis` function. Either class of object can be plotted with 
+the `plot` method.
