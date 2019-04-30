@@ -141,7 +141,7 @@ print.binvar <- function(binvar) {
   cat("\"Binomial Variable\"", "\n\n")
   cat("Parameters", "\n")
   cat("-", "number of trials:", binvar$trials, "\n")
-  cat("-", "prob of success :", binvar$prob)
+  cat("-", "prob of success :", binvar$prob, "\n")
 
   return(invisible(binvar))
 }
@@ -172,7 +172,7 @@ print.summary.binvar <- function(summary_object) {
   cat("-", "variance:", summary_object$variance, "\n")
   cat("-", "mode    :", summary_object$mode, "\n")
   cat("-", "skewness:", summary_object$skewness, "\n")
-  cat("-", "kurtosis:", summary_object$kurtosis)
+  cat("-", "kurtosis:", summary_object$kurtosis, "\n")
 
   return(invisible(summary_object))
 }
