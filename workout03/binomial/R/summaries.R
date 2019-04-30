@@ -49,7 +49,7 @@ aux_kurtosis <- function(trials, prob) {
 bin_mean <- function(trials, prob) {
   check_trials(trials)
   check_prob(prob)
-  return(aux_mean(trials, mean))
+  return(aux_mean(trials, prob))
 }
 
 #' @title Variance of binomial random variable
@@ -62,7 +62,7 @@ bin_mean <- function(trials, prob) {
 bin_variance <- function(trials, prob) {
   check_trials(trials)
   check_prob(prob)
-  return(aux_variance(trials, mean))
+  return(aux_variance(trials, prob))
 }
 
 #' @title Mode of binomial random variable
@@ -75,7 +75,7 @@ bin_variance <- function(trials, prob) {
 bin_mode <- function(trials, prob) {
   check_trials(trials)
   check_prob(prob)
-  return(aux_mode(trials, mean))
+  return(aux_mode(trials, prob))
 }
 
 #' @title Skewness of binomial random variable
@@ -88,7 +88,7 @@ bin_mode <- function(trials, prob) {
 bin_skewness <- function(trials, prob) {
   check_trials(trials)
   check_prob(prob)
-  return(aux_skewness(trials, mean))
+  return(aux_skewness(trials, prob))
 }
 
 #' @title Kurtosis of binomial random variable
@@ -101,5 +101,5 @@ bin_skewness <- function(trials, prob) {
 bin_kurtosis <- function(trials, prob) {
   check_trials(trials)
   check_prob(prob)
-  return(aux_kurtosis(trials, mean))
+  return(aux_kurtosis(trials, prob))
 }

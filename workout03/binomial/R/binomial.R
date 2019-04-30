@@ -13,10 +13,10 @@ bin_choose <- function(n, k) {
   if (mode(k) != "numeric" || k != floor(k)) {
     stop("k must be numeric integer")
   }
-  if (k > n) {
+  if (any(k > n)) {
     stop("k cannot be greater than n.")
   }
-  if (k < 0) {
+  if (any(k < 0)) {
     stop("k cannot be negative.")
   }
   return(factorial(n) / (factorial(n - k) * factorial(k)))
@@ -154,7 +154,7 @@ summary.binvar <- function(binvar) {
     mean = aux_mean(binvar$trials, binvar$prob),
     variance = aux_variance(binvar$trials, binvar$prob),
     mode = aux_mode(binvar$trials, binvar$prob),
-    skewness = aux_mode(binvar$trials, binvar$prob),
+    skewness = aux_skewness(binvar$trials, binvar$prob),
     kurtosis = aux_kurtosis(binvar$trials, binvar$prob)
   )
   class(summary_object) = c("summary.binvar", "list")
